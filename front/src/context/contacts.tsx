@@ -50,7 +50,7 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
     }
 
     const getContact = (getID: number): Contact => {
-        return contacts.find(c => c.id === getID) || { id: null, firstName: '', lastName: '', phoneNumber: '', email: '' }
+        return contacts.find(c => c.id === getID) || { id: -1, firstName: '', lastName: '', phoneNumber: '', email: '' }
     }
 
     return (

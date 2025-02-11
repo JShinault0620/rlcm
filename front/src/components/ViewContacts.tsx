@@ -11,7 +11,7 @@ const ContactsTable: React.FC = () => {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col className="my-3 col-auto"><Button onClick={() => setShowModal(true)}>Create</Button></Col>
+        <Col className="my-3 col-auto"><Button onClick={() => {setEditContactID(-1); setShowModal(true)}}>Create</Button></Col>
         <Table className="text-center table-striped table-sm">
           <thead>
             <tr>

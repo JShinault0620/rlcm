@@ -14,6 +14,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
     const [ lastName, setLastName ] = useState('')
     const [ phoneNumber, setPhoneNumber ] = useState('')
     const [ email, setEmail ] = useState('')
+    const [ titleText, setTitleText ] = useState('Create Contact')
 
     const handleAddContact = () => {
         if (!firstName || !lastName || !phoneNumber || !email) return
@@ -34,13 +35,15 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
         setLastName(fillContact.lastName)
         setPhoneNumber(fillContact.phoneNumber)
         setEmail(fillContact.email)
+
+        editID === -1 ? setTitleText('Create Contact') : setTitleText('Edit Contact')
     }, [editID])
 
     return (
         <div className="modal show" style={{ display: 'block', position: 'initial' }}>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Contact</Modal.Title>
+                    <Modal.Title>{titleText}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
