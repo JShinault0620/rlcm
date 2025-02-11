@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {Modal, Button, Form} from 'react-bootstrap'
 import { useContactsContext } from '../context/contacts.tsx'
 
 interface ModalProps {
     show: boolean
     handleClose: () => void
+    editID: number
 }
 
-const CreateModal: React.FC<ModalProps> = ({ show, handleClose }) => {
-    const { addContact } = useContactsContext()
+const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
+    const { addContact, getContact } = useContactsContext()
     const [ firstName, setFirstName ] = useState('')
     const [ lastName, setLastName ] = useState('')
     const [ phoneNumber, setPhoneNumber ] = useState('')
@@ -17,7 +18,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose }) => {
     const handleAddContact = () => {
         if (!firstName || !lastName || !phoneNumber || !email) return
 
-        addContact({ firstName, lastName, phoneNumber, email })
+        addContact({ firstName, lastName, phoneNumber, email }, editID)
         setFirstName('')
         setLastName('')
         setPhoneNumber('')
@@ -25,6 +26,15 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose }) => {
 
         handleClose()
     }
+
+    useEffect(() => {
+        const fillContact = getContact(editID)
+
+        setFirstName(fillContact.firstName)
+        setLastName(fillContact.lastName)
+        setPhoneNumber(fillContact.phoneNumber)
+        setEmail(fillContact.email)
+    }, [editID])
 
     return (
         <div className="modal show" style={{ display: 'block', position: 'initial' }}>

@@ -6,6 +6,7 @@ import CreateModal from './CreateModal'
 const ContactsTable: React.FC = () => {
   const { contacts, deleteContact } = useContactsContext()
   const [ showModal, setShowModal ] = useState(false)
+  const [ editContactID, setEditContactID ] = useState(-1)
 
   return (
     <Container>
@@ -19,6 +20,7 @@ const ContactsTable: React.FC = () => {
               <th>Phone</th>
               <th>Email</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -29,6 +31,7 @@ const ContactsTable: React.FC = () => {
                   <td>{contact.lastName}</td>
                   <td>{contact.phoneNumber}</td>
                   <td>{contact.email}</td>
+                  <td><Button className="btn-warning" onClick={() => {setEditContactID(contact.id); setShowModal(true)}}>Edit</Button></td>
                   <td><Button className="btn-danger" onClick={() => {deleteContact(contact.id)}}>Delete</Button></td>
                 </tr>
               )
@@ -37,7 +40,7 @@ const ContactsTable: React.FC = () => {
         </Table>
       </Row>
 
-      <CreateModal show={showModal} handleClose={() => setShowModal(false)}/>
+      <CreateModal show={showModal} handleClose={() => setShowModal(false)} editID={editContactID}/>
     </Container>
   )
 }
