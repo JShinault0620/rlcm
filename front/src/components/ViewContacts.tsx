@@ -4,7 +4,7 @@ import {ContactsProvider, useContactsContext} from '../context/contacts.tsx'
 import CreateModal from './CreateModal'
 
 const ContactsTable: React.FC = () => {
-  const { contacts, addContact, deleteContact } = useContactsContext()
+  const { contacts, deleteContact } = useContactsContext()
   const [ showModal, setShowModal ] = useState(false)
 
   return (
