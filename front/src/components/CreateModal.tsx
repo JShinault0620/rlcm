@@ -9,17 +9,18 @@ interface ModalProps {
 }
 
 const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
-    const { addContact, getContact } = useContactsContext()
+    const { addContact, getContact, editContact } = useContactsContext()
     const [ firstName, setFirstName ] = useState('')
     const [ lastName, setLastName ] = useState('')
     const [ phoneNumber, setPhoneNumber ] = useState('')
     const [ email, setEmail ] = useState('')
     const [ titleText, setTitleText ] = useState('Create Contact')
 
-    const handleAddContact = () => {
+    const handleSubmit = () => {
+        const inputContact = { id: editID, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, email: email }
         if (!firstName || !lastName || !phoneNumber || !email) return
 
-        addContact({ firstName, lastName, phoneNumber, email }, editID)
+        inputContact.id === -1 ? addContact(inputContact) : editContact(inputContact)
         setFirstName('')
         setLastName('')
         setPhoneNumber('')
@@ -89,7 +90,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary" onClick={handleAddContact}>Save</Button>
+                    <Button variant="primary" onClick={handleSubmit}>Save</Button>
                 </Modal.Footer>
             </Modal>
         </div>

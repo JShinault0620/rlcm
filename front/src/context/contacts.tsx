@@ -10,7 +10,8 @@ interface Contact {
 
 interface ContactContextType {
     contacts: Contact[]
-    addContact: (contact: Contact, editID: number) => void
+    addContact: (contact: Contact) => void
+    editContact: (contact: Contact) => void
     deleteContact: (id: number) => void
     getContact: (getID: number) => Contact
 }
@@ -35,14 +36,17 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
         }
     ])
 
-    const addContact = (contact: Contact, editID: number) => {
-        if (editID) {
-            deleteContact(editID)
-        }
+    const addContact = (contact: Contact) => {
+        contact.id = contacts.length === 0 ? 0 : Math.max(...contacts.map(c => c.id)) + 1
 
         setContacts((existingContacts) => {
-            return [ ...existingContacts, { id: contacts.length > 0 ? Math.max(...contacts.map(c => c.id)) + 1 : 0, ...contact} ] 
+            return [ ...existingContacts, contact ] 
         })
+    }
+
+    const editContact = (contact: Contact) => {
+        const newContactList = contacts.map(c => c.id === contact.id ? contact : c)
+        setContacts(newContactList)
     }
 
     const deleteContact = (id: number) => {
@@ -54,7 +58,7 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
     }
 
     return (
-        <ContactsContext.Provider value={{ contacts, addContact, deleteContact, getContact }}>
+        <ContactsContext.Provider value={{ contacts, addContact, editContact, deleteContact, getContact }}>
             { children }
         </ContactsContext.Provider>
     )
