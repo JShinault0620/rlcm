@@ -1,7 +1,4 @@
 <cfcomponent>
-    <cfheader name="Content-Type" value="application/json">
-    <cfheader name="Access-Control-Allow-Origin" value="*">
-
     <cffunction name="getcontacts" returntype="string" returnformat="JSON" output="false" access="remote">
         <cfquery name="local.selectContacts" datasource="ContactManager">
             select id, firstname, lastname, phonenumber, email
