@@ -26,7 +26,7 @@ const ContactsTable: React.FC = () => {
           <tbody>
             {contacts.map((contact) => {
               return (
-                <tr>
+                <tr key={contact.id}>
                   <td>{contact.firstName}</td>
                   <td>{contact.lastName}</td>
                   <td>{contact.phoneNumber}</td>
