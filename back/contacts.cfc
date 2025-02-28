@@ -43,4 +43,20 @@
 
         <cfreturn serializeJSON({id: local.newId.id})>
     </cffunction>
+
+    <cffunction name="updatecontact" returntype="string" returnformat="JSON" output="false" access="remote">
+        <cfset local.updatedContact = deserializeJSON(getHttpRequestData().content)>
+
+        <cfquery name="local.updateContact" datasource="ContactManager">
+            update contactmanager.contacts
+            set
+                firstname=<cfqueryparam cfsqltype="cf_sql_varchar" value="#local.updatedContact.firstName#">,
+                lastname=<cfqueryparam cfsqltype="cf_sql_varchar" value="#local.updatedContact.lastName#">,
+                phonenumber=<cfqueryparam cfsqltype="cf_sql_varchar" value="#local.updatedContact.phoneNumber#">,
+                email=<cfqueryparam cfsqltype="cf_sql_varchar" value="#local.updatedContact.email#">
+            where id=<cfqueryparam cfsqltype="cf_sql_integer" value="#local.updatedContact.id#">
+        </cfquery>
+
+        <cfreturn serializeJSON({id: local.updatedContact.id})>
+    </cffunction>
 </cfcomponent>
