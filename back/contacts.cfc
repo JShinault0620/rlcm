@@ -59,4 +59,22 @@
 
         <cfreturn serializeJSON({id: local.updatedContact.id})>
     </cffunction>
+
+    <cffunction name="getcontactbyid" returntype="string" returnformat="JSON" output="false" access="remote">
+        <cfargument name="contactId" required="true">
+
+        <cfquery name="local.selectContact" datasource="ContactManager">
+            select id, firstname, lastname, phonenumber, email
+            from contactmanager.contacts
+            where id=<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.contactId#">
+        </cfquery>
+
+        <cfreturn serializeJSON({
+            id: local.selectContact.id,
+            firstName: local.selectContact.firstname,
+            lastName: local.selectContact.lastname,
+            phoneNumber: local.selectContact.phonenumber,
+            email: local.selectContact.email
+        })>
+    </cffunction>
 </cfcomponent>
