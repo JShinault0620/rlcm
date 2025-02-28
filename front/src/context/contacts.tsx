@@ -77,7 +77,7 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
         })
             .then((res) => {
                 if (!res.ok) {
-                    throw new Error('There was a problem creating a new contact.')
+                    throw new Error('There was a problem updating the contact.')
                 }
                 return res.json()
             })
