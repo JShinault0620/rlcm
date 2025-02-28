@@ -73,7 +73,7 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
     }
 
     const editContact = (contact: Contact) => {
-        fetch('/api/contacts.cfc?method=addcontact', {
+        fetch('/api/contacts.cfc?method=updatecontact', {
             method: 'POST',
             body: JSON.stringify(contact)
         })
