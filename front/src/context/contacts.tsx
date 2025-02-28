@@ -92,7 +92,19 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
     }
 
     const deleteContact = (id: number) => {
-        setContacts(existingContacts => existingContacts.filter(contact => contact.id !== id))
+        fetch(`/api/contacts.cfc?method=deletecontact&contactId=${id}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('There was a problem deleting the contact.')
+                }
+                return res.json()
+            })
+            .then(() => {
+                setContacts(existingContacts => existingContacts.filter(contact => contact.id !== id))
+            })
+            .catch((err) => {
+                console.log(err.message)
+            })
     }
 
     const selectContact = async (getID: number) => {
