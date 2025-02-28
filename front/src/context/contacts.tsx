@@ -71,8 +71,22 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
     }
 
     const editContact = (contact: Contact) => {
-        const newContactList = contacts.map(c => c.id === contact.id ? contact : c)
-        setContacts(newContactList)
+        fetch('/api/contacts.cfc?method=addcontact', {
+            method: 'POST',
+            body: JSON.stringify(contact)
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('There was a problem creating a new contact.')
+                }
+                return res.json()
+            })
+            .then((data) => {
+                setContacts(contacts.map(c => c.id === data.ID ? contact : c))
+            })
+            .catch((err) => {
+                console.log(err.message)
+            })
     }
 
     const deleteContact = (id: number) => {
