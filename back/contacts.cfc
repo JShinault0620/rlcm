@@ -77,4 +77,16 @@
             email: local.selectContact.email
         })>
     </cffunction>
+
+    <cffunction name="deletecontact" returntype="string" returnformat="JSON" output="false" access="remote">
+        <cfargument name="contactId" required="true">
+
+        <cfquery name="local.deleteContact" datasource="ContactManager">
+            delete 
+            from contactmanager.contacts
+            where id=<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.contactId#">
+        </cfquery>
+
+        <cfreturn serializeJSON({id: arguments.contactId})>
+    </cffunction>
 </cfcomponent>
