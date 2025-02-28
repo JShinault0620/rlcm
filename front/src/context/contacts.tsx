@@ -10,16 +10,18 @@ interface Contact {
 
 interface ContactContextType {
     contacts: Contact[]
+    selectedContact: Contact
     addContact: (contact: Contact) => void
     editContact: (contact: Contact) => void
     deleteContact: (id: number) => void
-    getContact: (getID: number) => Contact
+    selectContact: (getID: number) => void
 }
 
 const ContactsContext = createContext<ContactContextType | undefined>(undefined)
 
 export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children }) => {
     const [contacts, setContacts] = useState<Contact[]>([])
+    const [selectedContact, setSelectedContact] = useState<Contact>({ id: -1, firstName: '', lastName: '', phoneNumber: '', email: '' })
 
     const refreshContacts = () => {
         fetch('/api/contacts.cfc?method=getcontacts')
@@ -93,12 +95,30 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
         setContacts(existingContacts => existingContacts.filter(contact => contact.id !== id))
     }
 
-    const getContact = (getID: number): Contact => {
-        return contacts.find(c => c.id === getID) || { id: -1, firstName: '', lastName: '', phoneNumber: '', email: '' }
-    }
+    const selectContact = async (getID: number) => {
+        if (getID !== -1) {
+            let res = await fetch(`/api/contacts.cfc?method=getcontactbyid&contactID=${getID}`)
+            if (!res.ok) {
+                throw new Error('There was a problem creating a new contact.')
+            }
 
+            let data = await res.json()
+
+            let jsonData = await JSON.parse(data)
+        
+            setSelectedContact({ 
+                id: jsonData.ID,
+                firstName: jsonData.FIRSTNAME,
+                lastName: jsonData.LASTNAME,
+                phoneNumber: jsonData.PHONENUMBER,
+                email: jsonData.EMAIL
+            })
+        } else {
+            setSelectedContact({ id: -1, firstName: '', lastName: '', phoneNumber: '', email: '' })
+        }
+    }
     return (
-        <ContactsContext.Provider value={{ contacts, addContact, editContact, deleteContact, getContact }}>
+        <ContactsContext.Provider value={{ contacts, selectedContact, selectContact,  addContact, editContact, deleteContact }}>
             { children }
         </ContactsContext.Provider>
     )
