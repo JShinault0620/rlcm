@@ -22,6 +22,8 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
 
         inputContact.id === -1 ? addContact(inputContact) : editContact(inputContact)
 
+        selectContact(-1)
+
         handleClose()
     }
 
