@@ -21,10 +21,6 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
         if (!firstName || !lastName || !phoneNumber || !email) return
 
         inputContact.id === -1 ? addContact(inputContact) : editContact(inputContact)
-        setFirstName('')
-        setLastName('')
-        setPhoneNumber('')
-        setEmail('')
 
         handleClose()
     }
@@ -40,7 +36,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
         setLastName(selectedContact.lastName)
         setPhoneNumber(selectedContact.phoneNumber)
         setEmail(selectedContact.email)
-    }, [selectedContact])
+    }, [editID, selectedContact])
 
     return (
         <ContactsProvider>
