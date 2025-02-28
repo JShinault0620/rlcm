@@ -32,13 +32,15 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
     useEffect(() => {
         selectContact(editID)
 
+        editID === -1 ? setTitleText('Create Contact') : setTitleText('Edit Contact')
+    }, [editID])
+
+    useEffect(() => {
         setFirstName(selectedContact.firstName)
         setLastName(selectedContact.lastName)
         setPhoneNumber(selectedContact.phoneNumber)
         setEmail(selectedContact.email)
-
-        editID === -1 ? setTitleText('Create Contact') : setTitleText('Edit Contact')
-    }, [editID])
+    }, [selectedContact])
 
     return (
         <ContactsProvider>
@@ -55,7 +57,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter first name"
-                                    value={selectedContact.firstName}
+                                    value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
                                 />
                             </Form.Group>
@@ -64,7 +66,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter last name"
-                                    value={selectedContact.lastName}
+                                    value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                             </Form.Group>
@@ -73,7 +75,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter phone number"
-                                    value={selectedContact.phoneNumber}
+                                    value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}
                                 />
                             </Form.Group>
@@ -82,7 +84,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter email"
-                                    value={selectedContact.email}
+                                    value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </Form.Group>
