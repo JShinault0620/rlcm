@@ -83,8 +83,8 @@ export const ContactsProvider : React.FC<{ children: ReactNode }> = ({ children 
                 }
                 return res.json()
             })
-            .then((data) => {
-                setContacts(contacts.map(c => c.id === data.ID ? contact : c))
+            .then(() => {
+                setContacts(contacts.map(c => c.id === contact.id ? contact : c))
             })
             .catch((err) => {
                 console.log(err.message)
