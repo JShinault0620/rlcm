@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {Modal, Button, Form} from 'react-bootstrap'
+import { Modal, Button, Form, Row, Container } from 'react-bootstrap'
 import { ContactsProvider, useContactsContext } from '../context/contacts.tsx'
 
 interface ModalProps {
@@ -15,16 +15,18 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
     const [ phoneNumber, setPhoneNumber ] = useState('')
     const [ email, setEmail ] = useState('')
     const [ titleText, setTitleText ] = useState('Create Contact')
+    const [ edit, setEdit ] = useState(false)
 
-    const handleSubmit = () => {
+    const saveContact = () => {
         const inputContact = { id: editID, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, email: email }
         if (!firstName || !lastName || !phoneNumber || !email) return
 
         inputContact.id === -1 ? addContact(inputContact) : editContact(inputContact)
 
-        selectContact(-1)
-
-        handleClose()
+        setFirstName(inputContact.firstName)
+        setLastName(inputContact.lastName)
+        setPhoneNumber(inputContact.phoneNumber)
+        setEmail(inputContact.email)
     }
 
     useEffect(() => {
@@ -49,7 +51,7 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <Form>
+                        <Form className={ edit ? "" : "d-none" }>
                             <Form.Group className="mb-3">
                                 <Form.Label>First Name</Form.Label>
                                 <Form.Control
@@ -87,11 +89,18 @@ const CreateModal: React.FC<ModalProps> = ({ show, handleClose, editID }) => {
                                 />
                             </Form.Group>
                         </Form>
+
+                        <Container className={ edit ? "d-none" : "" }>
+                            <Row className="mb-3">First Name: {firstName}</Row>
+                            <Row className="mb-3">Last Name: {lastName}</Row>
+                            <Row className="mb-3">Phone Number: {phoneNumber}</Row>
+                            <Row className="mb-3">Email: {email}</Row>
+                        </Container>
                     </Modal.Body>
 
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
-                        <Button variant="primary" onClick={handleSubmit}>Save</Button>
+                    <Modal.Footer className="justify-content-between">
+                        <Button className="btn-warning" onClick={() => setEdit(edit ? false : true)}>{ edit ? "Cancel" : "Edit" }</Button>
+                        <Button className={ edit ? "" : " d-none" } variant="primary" onClick={saveContact}>Save</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

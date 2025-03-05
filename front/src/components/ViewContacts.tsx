@@ -32,7 +32,7 @@ const ContactsTable: React.FC = () => {
                   <td>{contact.phoneNumber}</td>
                   <td>{contact.email}</td>
                   <td>
-                    <Button className="btn-warning" onClick={() => {setEditContactID(contact.id); setShowModal(true)}}>Edit</Button>
+                    <Button className="btn-warning" onClick={() => {setEditContactID(contact.id); setShowModal(true)}}>View</Button>
                     <Button className="btn-danger" onClick={() => {deleteContact(contact.id)}}>Delete</Button>
                   </td>
                 </tr>
